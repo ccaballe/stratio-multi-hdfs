@@ -1,0 +1,1 @@
+INSERT INTO public.dyplon_group_tenant(id_group, id_tenant) VALUES ('custom_group_1', 'tenant_1');

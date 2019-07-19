@@ -1,0 +1,1 @@
+INSERT INTO public.dyplon_service(id, service_type, is_posix, url, is_authotrizable, is_external, status) VALUES ('service_id', 'service_type_id', FALSE, null, TRUE, FALSE, 'READY');

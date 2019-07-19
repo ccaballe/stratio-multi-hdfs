@@ -1,0 +1,77 @@
+version: 1
+
+dn: dc=stratio,dc=com
+objectClass: organization
+objectClass: dcObject
+objectClass: top
+dc: stratio
+o: stratio com
+
+dn: cn=ldaproot,dc=stratio,dc=com
+objectClass: organizationalRole
+cn: ldaproot
+description: ldap administrator
+
+dn: ou=Groups,dc=stratio,dc=com
+objectClass: organizationalUnit
+ou: Groups
+description: Stratio Roles
+
+dn: ou=People,dc=stratio,dc=com
+objectClass: organizationalUnit
+ou: People
+description: Stratio Roles
+
+dn: uid=ldap_1,ou=People,dc=stratio,dc=com
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: ldap_1
+gidNumber: 1
+sn: sn_1
+uid: ldap_1
+uidNumber: 1
+displayName: ldap_1 sn_1
+givenName: ldap_1
+mail: ldap_1@stratio.com
+userPassword:: e21kNX1nZHliMjFMUVRjSUFOdHZZTVQ3UVZRPT0=
+
+dn: uid=ldap_2,ou=People,dc=stratio,dc=com
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: ldap_2
+gidNumber: 2
+sn: sn_2
+uid: ldap_2
+uidNumber: 2
+displayName: ldap_2 sn_2
+givenName: ldap_2
+mail: ldap_2@stratio.com
+userPassword:: e21kNX1nZHliMjFMUVRjSUFOdHZZTVQ3UVZRPT0=
+
+dn: cn=GROUP_LDAP_1,ou=Groups,dc=stratio,dc=com
+objectClass: posixGroup
+cn: GROUP_LDAP_1
+gidNumber: 1
+description: GROUP LDAP 1
+memberUid: uid=ldap_1,ou=People,dc=stratio,dc=com
+
+dn: cn=GROUP_LDAP_2,ou=Groups,dc=stratio,dc=com
+objectClass: posixGroup
+cn: GROUP_LDAP_2
+gidNumber: 2
+description: GROUP LDAP 2
+memberUid: uid=ldap_2,ou=People,dc=stratio,dc=com
+
+dn: cn=GROUP_LDAP_3,ou=Groups,dc=stratio,dc=com
+objectClass: posixGroup
+cn: GROUP_LDAP_3
+gidNumber: 3
+description: GROUP LDAP 3
+memberUid: uid=ldap_1,ou=People,dc=stratio,dc=com
+memberUid: uid=ldap_2,ou=People,dc=stratio,dc=com

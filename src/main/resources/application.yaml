@@ -1,0 +1,71 @@
+spring:
+  profiles:
+    active: ${SSO_PROFILE:PRODUCTION}
+
+---
+
+spring:
+  profiles: PRODUCTION
+
+server:
+  port: 8443
+  ssl:
+    key-store: ${MULTIHDFS_KEYSTORE_LOCATION}
+    key-store-password: ${MULTIHDFS_KEYSTORE_PASS}
+    key-password: ${MULTIHDFS_KEYSTORE_PASS}
+
+
+logging:
+  level:
+    ROOT: ${LOG_LEVEL_ROOT:INFO}
+    org.springframework: ${LOG_LEVEL_SPRING:INFO}
+    com.stratio.multihdfs: ${LOG_LEVEL_STRATIO:INFO}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  port: 18080
+  ssl:
+    enabled: false
+
+# Cron expression
+# At 02:00 every day.
+cron.ldap: 0 0 2 * * * *
+---
+
+spring:
+  profiles: DEVELOPMENT
+  security:
+    enable: false
+security:
+  ignored: /**
+  basic:
+    enabled: false
+
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:server.jks
+    key-store-password: ca
+    key-password: ca
+    trust-store: classpath:truststore.jks
+    trust-store-password: ca
+
+
+logging:
+  level:
+    ROOT: ${LOG_LEVEL_ROOT:INFO}
+    org.springframework: ${LOG_LEVEL_SPRING:INFO}
+    com.stratio.multihdfs: ${LOG_LEVEL_STRATIO:INFO}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  port: 18080
+  ssl:
+    enabled: false
+

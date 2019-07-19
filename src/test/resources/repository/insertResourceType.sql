@@ -1,0 +1,1 @@
+INSERT INTO public.dyplon_resource_type(id, name, service_type) VALUES ('resource_type_id', 'T', 'service_type_id');

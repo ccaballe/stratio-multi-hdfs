@@ -1,0 +1,32 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Scala template
+*.class
+*.log
+
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+.idea
+
+
+### Maven template
+target/
+*.iml
+
+application.conf
+
+api/src/test/resources/ldap-unsecured.conf
+
+**/dependency-reduced-pom.xml
+**/*.swp
+**/*.bck
+
+### New versioning
+.flattened-pom.xml
+api/.flattened-pom.xml
+core/.flattened-pom.xml
+http/.flattened-pom.xml
+model/.flattened-pom.xml
+
+
