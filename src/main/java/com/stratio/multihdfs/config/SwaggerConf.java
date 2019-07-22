@@ -54,7 +54,7 @@ public class SwaggerConf {
   }
 
   private static ApiInfo apiInfo() {
-    return new ApiInfoBuilder().title("API REST for Gosec Identity DAAS").description("API REST for MultiHDFS")
+    return new ApiInfoBuilder().title("API REST for MultiHDFS").description("API REST for MultiHDFS")
         .contact(new Contact("Stratio", "", ""))
         .license("© 2017 Stratio Big Data Inc., Sucursal en España. All rights reserved.")
         .version("1.0.0").build();

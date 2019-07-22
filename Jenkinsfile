@@ -8,7 +8,6 @@ hose {
     NEW_VERSIONING = true
     KMS_UTILS='0.2.1'
     BUILDTOOLVERSION = '3.5.0'
-    DEPLOYONPRS = true
 
 
     DEV = { config ->        

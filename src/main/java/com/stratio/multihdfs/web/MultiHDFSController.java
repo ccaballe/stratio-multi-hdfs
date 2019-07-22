@@ -58,7 +58,7 @@ public class MultiHDFSController {
 
     private String krb5File = "krb5.conf";
 
-    @ApiOperation(value = "Get tenant", response = TenantResponse.class)
+    @ApiOperation(value = "Get config file", response = String.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = String.class),
             @ApiResponse(code = 404, message = "Not Found", response = ErrorResponse.class),
