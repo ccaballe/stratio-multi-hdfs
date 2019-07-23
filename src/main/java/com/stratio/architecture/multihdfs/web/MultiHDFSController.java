@@ -7,10 +7,13 @@
  * authorization from Stratio Big Data Inc., Sucursal en España.
  */
 
-package com.stratio.multihdfs.web;
+package com.stratio.architecture.multihdfs.web;
 
-import com.stratio.multihdfs.dto.*;
-import com.stratio.multihdfs.error.ErrorResponse;
+import com.stratio.architecture.multihdfs.dto.ConfigurationDTOResponse;
+import com.stratio.architecture.multihdfs.dto.HDFSProperty;
+import com.stratio.architecture.multihdfs.dto.MarathonApp;
+import com.stratio.architecture.multihdfs.dto.MarathonAppsDTOResponse;
+import com.stratio.architecture.multihdfs.error.ErrorResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;

@@ -25,10 +25,7 @@ logging:
   level:
     ROOT: INFO
     org.springframework: INFO
-    com.stratio.gosec: INFO
-    com.stratio.gosec.api: INFO
-    com.stratio.gosec.identities: INFO
-    com.stratio.gosec.identities.daas.tests: INFO
+    com.stratio.architecture.multihdfs: INFO
     ru.yandex.qatools.embed: INFO
 
 management:

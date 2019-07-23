@@ -7,7 +7,7 @@
  * disassembled or decompiled, without express written authorization from Stratio Big Data Inc.,
  * Sucursal en España.
  */
-package com.stratio.multihdfs.config;
+package com.stratio.architecture.multihdfs.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

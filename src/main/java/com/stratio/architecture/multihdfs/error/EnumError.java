@@ -3,13 +3,12 @@
  *
  * This software – including all its source code – contains proprietary information of Stratio Big Data Inc., Sucursal en España and may not be revealed, sold, transferred, modified, distributed or otherwise made available, licensed or sublicensed to third parties; nor reverse engineered, disassembled or decompiled, without express written authorization from Stratio Big Data Inc., Sucursal en España.
  */
-package com.stratio.multihdfs.dto;
+package com.stratio.architecture.multihdfs.error;
 
-import com.stratio.multihdfs.error.ErrorLevel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.http.HttpStatus;
 
-public enum EnumConfig {
+public enum EnumError {
     REQUEST_METHOD_NOT_SUPPORTED(HttpStatus.METHOD_NOT_ALLOWED.value(), "request_method_not_supported", ErrorLevel.INFO, "Request method not supported.", ""),
     BAD_REQUEST(HttpStatus.BAD_REQUEST.value(), "bad_request", ErrorLevel.INFO, "Request is malformed or there are missing mandatory parameters.", ""),
     NOT_FOUND_ERROR(HttpStatus.NOT_FOUND.value(), "not_found", ErrorLevel.INFO, "Request not found.", ""),
@@ -23,7 +22,7 @@ public enum EnumConfig {
     private final String description;
     private final String moreInfo;
 
-    EnumConfig(int code, String message, ErrorLevel level, String description, String moreInfo) {
+    EnumError(int code, String message, ErrorLevel level, String description, String moreInfo) {
         this.code = code;
         this.message = message;
         this.level = level;

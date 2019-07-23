@@ -1,5 +1,4 @@
-package com.stratio.multihdfs.dto;
-
+package com.stratio.architecture.multihdfs.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -7,18 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MarathonApp {
+public class MarathonContainer {
 
 
-    private String id;
-
-    @JsonProperty("labels")
-    private MarathonLabel labels;
-
-    @JsonProperty("container")
-    private MarathonContainer container;
+    @JsonProperty("portMappings")
+    private List<MarathonPortMapping> portMappings;
 }

@@ -19,11 +19,11 @@
     </parent>
 
     <artifactId>multihdfs</artifactId>
-    <groupId>com.stratio.gosec</groupId>
-    <version>0.2.0-SNAPSHOT</version>
+    <groupId>com.stratio.architecture</groupId>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Stratio GoSec Identities DAAS</name>
-    <description>Identities management app</description>
+    <name>Stratio Multi HDFS service</name>
+    <description>Service to get config files from multiple HDFS</description>
     <inceptionYear>2019</inceptionYear>
     <issueManagement>
         <system>Jira</system>

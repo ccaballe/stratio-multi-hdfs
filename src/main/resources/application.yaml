@@ -19,7 +19,7 @@ logging:
   level:
     ROOT: ${LOG_LEVEL_ROOT:INFO}
     org.springframework: ${LOG_LEVEL_SPRING:INFO}
-    com.stratio.multihdfs: ${LOG_LEVEL_STRATIO:INFO}
+    com.stratio.architecture.multihdfs: ${LOG_LEVEL_STRATIO:INFO}
 
 management:
   endpoints:
@@ -58,7 +58,7 @@ logging:
   level:
     ROOT: ${LOG_LEVEL_ROOT:INFO}
     org.springframework: ${LOG_LEVEL_SPRING:INFO}
-    com.stratio.multihdfs: ${LOG_LEVEL_STRATIO:INFO}
+    com.stratio.architecture.multihdfs: ${LOG_LEVEL_STRATIO:INFO}
 
 management:
   endpoints:

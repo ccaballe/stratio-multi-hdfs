@@ -7,7 +7,7 @@
  * authorization from Stratio Big Data Inc., Sucursal en España.
  */
 
-package com.stratio.multihdfs.config;
+package com.stratio.architecture.multihdfs.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

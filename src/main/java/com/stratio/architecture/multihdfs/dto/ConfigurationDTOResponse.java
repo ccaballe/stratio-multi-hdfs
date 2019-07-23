@@ -1,4 +1,4 @@
-package com.stratio.multihdfs.dto;
+package com.stratio.architecture.multihdfs.dto;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;

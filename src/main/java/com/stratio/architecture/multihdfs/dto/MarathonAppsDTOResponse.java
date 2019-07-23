@@ -1,4 +1,4 @@
-package com.stratio.multihdfs.dto;
+package com.stratio.architecture.multihdfs.dto;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.AllArgsConstructor;

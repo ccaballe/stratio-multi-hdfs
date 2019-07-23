@@ -7,7 +7,7 @@
  * authorization from Stratio Big Data Inc., Sucursal en España.
  */
 
-package com.stratio.multihdfs.error;
+package com.stratio.architecture.multihdfs.error;
 
 public class PreconditionException extends RuntimeException{
     public PreconditionException(String s, Throwable throwable) {
