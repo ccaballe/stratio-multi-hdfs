@@ -1,1 +1,0 @@
-INSERT INTO public.dyplon_resource(id, value, "idOwner", "idResourceType") VALUES ('resource_id', 'resource_name', 'custom_user_1', 'resource_type_id');

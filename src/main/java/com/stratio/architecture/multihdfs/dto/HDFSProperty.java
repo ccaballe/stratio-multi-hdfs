@@ -1,4 +1,4 @@
-package com.stratio.multihdfs.dto;
+package com.stratio.architecture.multihdfs.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

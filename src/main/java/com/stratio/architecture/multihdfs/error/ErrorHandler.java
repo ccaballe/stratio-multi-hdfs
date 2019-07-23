@@ -7,7 +7,7 @@
  * disassembled or decompiled, without express written authorization from Stratio Big Data Inc.,
  * Sucursal en España.
  */
-package com.stratio.multihdfs.error;
+package com.stratio.architecture.multihdfs.error;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
