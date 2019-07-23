@@ -20,7 +20,6 @@ source /kms_utils.sh
  then
    CLUSTER=${CLUSTER:="userland"}
    INSTANCE=${INSTANCE:="multihdfs"}
-   FQDN_KRB=${FQDN_KRB:="multihdfs"}
 
    if [[ ${VAULT_ROLE_ID} ]] && [[ ${VAULT_SECRET_ID} ]];
    then
@@ -28,10 +27,12 @@ source /kms_utils.sh
      login
    fi
 
+   # get user/pass from marathon http basic
+   getPass dcs marathon rest
+   export MULTIHDFS_USER=$MARATHON_REST_USER
+   export MULTIHDFS_PASS=$MARATHON_REST_PASS
 
-   getPass ${CLUSTER} ${INSTANCE} "ldap"
-   export LDAP_PRINCIPAL=${MULTIHDFS_LDAP_USER}
-   export LDAP_CREDENTIALS=${MULTIHDFS_LDAP_PASS}
+   env
 
    getCAbundle ${CERTPATH} "JKS" "truststore.jks"
    getCert ${CLUSTER} ${INSTANCE} ${FQDN} "JKS" "${CERTPATH}"
@@ -44,15 +45,6 @@ source /kms_utils.sh
    getPass "ca-trust" "default" "keystore"
    keytool -importkeystore -noprompt -srckeystore "${CERTPATH}truststore.jks" -srcstorepass "${DEFAULT_KEYSTORE_PASS}" -destkeystore "${CACERTS_PATH}" -deststorepass changeit
 
-   # Get postgres certificates
-   getCert "$CLUSTER" "$INSTANCE" ${FQDN} "PEM" "${CERTPATH}"
-   getPass ${CLUSTER} postgreseos "service"
-   getCAbundle "${CERTPATH}" "PEM" "caroot.crt"
-
-   fold -w64 "${CERTPATH}/${FQDN}.key" >> "${CERTPATH}aux.key"
-   mv "${CERTPATH}/aux.key" "${CERTPATH}${FQDN}.key"
-   openssl pkcs8 -topk8 -inform pem -in "${CERTPATH}${FQDN}.key" -outform der -nocrypt -out "${CERTPATH}/key.pkcs8"
-   mv "$CERTPATH/${FQDN}.pem" "${CERTPATH}/cert.crt"
  fi
 
 java -jar /etc/sds/multihdfs/multihdfs-*.jar

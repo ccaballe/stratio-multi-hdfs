@@ -14,6 +14,12 @@ server:
     key-store-password: ${MULTIHDFS_KEYSTORE_PASS}
     key-password: ${MULTIHDFS_KEYSTORE_PASS}
 
+security:
+  ignored: /**
+  basic:
+    enabled: false
+
+
 
 logging:
   level:

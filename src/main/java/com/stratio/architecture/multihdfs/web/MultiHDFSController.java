@@ -86,25 +86,19 @@ public class MultiHDFSController {
         String hdfsMasterName = config;
         List<String> hdfsSecondaries = argumentsList.stream().limit(argumentsList.size() - 1).collect(Collectors.toList());
 
-        log.error(hdfsMasterName);
-        log.error(hdfsSecondaries.toString());
-
-
         MarathonAppsDTOResponse marathonAppsDTOResponse  = getMarathonApps();
-        // TODO get url from marathon.mesos
-//        String hdfsMaster = "http://localhost:8000";
         String hdfsMaster = getHDFSURL(hdfsMasterName, marathonAppsDTOResponse);
 
         ResponseEntity<String> response;
         if (configFile.equals(coreSiteFile)) {
             // TODO check if is url and check for double /
-            response = restTemplate.getForEntity(URI.create(hdfsMaster + "/" + coreSiteFile), String.class);
+            response = restTemplate.getForEntity(URI.create(hdfsMaster + "/v1/config/" + coreSiteFile), String.class);
         } else if (configFile.equals(krb5File)) {
             // TODO check if is url and check for double /
-            response = restTemplate.getForEntity(hdfsMaster + "/" + krb5File, String.class);
+            response = restTemplate.getForEntity(hdfsMaster + "/v1/config/" + krb5File, String.class);
         } else if (configFile.equals(hdfsSiteFile)) {
             if (hdfsSecondaries == null || hdfsSecondaries.isEmpty())
-                response = restTemplate.getForEntity(hdfsMaster + "/" + hdfsSiteFile, String.class);
+                response = restTemplate.getForEntity(hdfsMaster + "/v1/config/" + hdfsSiteFile, String.class);
             else {
                 // TODO
                 response = concatenateHDFSSite(hdfsMaster, hdfsSecondaries.stream().map(x -> getHDFSURL(x, marathonAppsDTOResponse)).collect(Collectors.toList()));
@@ -116,7 +110,6 @@ public class MultiHDFSController {
     }
 
     private MarathonAppsDTOResponse getMarathonApps() {
-//        MarathonAppsDTOResponse marathonAppsDTOResponse = restTemplate.exchange("https://marathon.mesos:8123/marathon.json",
         MarathonAppsDTOResponse marathonAppsDTOResponse = restTemplate.exchange("https://marathon.mesos:8443/v2/apps",
                 HttpMethod.GET,
                 new HttpEntity<String>(createHeaders(user, pass)),
@@ -125,6 +118,7 @@ public class MultiHDFSController {
     }
 
     private String getHDFSURL(String hdfs, MarathonAppsDTOResponse marathonAppsDTOResponse) {
+        log.debug("Getting HDFS URL for HDFS: " + hdfs);
         // TODO check if any hdfs not found
         MarathonApp marathonApp = marathonAppsDTOResponse.getApps().stream().filter(app -> app.getLabels().getSTRATIO_SERVICE() != null && app.getLabels().getSTRATIO_SERVICE().equals("hdfs") && app.getId().split("/")[app.getId().split("/").length - 1].equals(hdfs)).collect(Collectors.toList()).get(0);
         String id = marathonApp.getId();
@@ -132,7 +126,8 @@ public class MultiHDFSController {
         int containerPort = marathonApp.getContainer().getPortMappings().get(0).getContainerPort();
         List<String> aux = Arrays.asList(id.split("/"));
         Collections.reverse(aux);
-        String url = protocol + "://" + StringUtils.join(aux, ".") + "marathon.mesos:" + containerPort + "/v1/config/hdfs-site.xml";
+        String url = protocol + "://" + StringUtils.join(aux, ".") + "marathon.mesos:" + containerPort ;
+        log.debug("HDFS URL is: " + url);
         return url;
     }
 
@@ -149,11 +144,12 @@ public class MultiHDFSController {
     }
 
     private ResponseEntity<String> concatenateHDFSSite(String hdfsMaster, List<String> hdfsSecondaries) {
-        ConfigurationDTOResponse hdfsSiteMaster = restTemplate.getForObject(hdfsMaster + "/" + "hdfs-site.xml", ConfigurationDTOResponse.class);
+        log.debug("Getting hdfs-site.xml from " + hdfsMaster);
+        ConfigurationDTOResponse hdfsSiteMaster = restTemplate.getForObject(hdfsMaster + "/v1/config/hdfs-site.xml", ConfigurationDTOResponse.class);
 
         for (String hdfsSecondary : hdfsSecondaries) {
 
-            ConfigurationDTOResponse hdfsSiteSecondary = restTemplate.getForObject(hdfsSecondary + "/" + "hdfs-site.xml", ConfigurationDTOResponse.class);
+            ConfigurationDTOResponse hdfsSiteSecondary = restTemplate.getForObject(hdfsSecondary + "/v1/config/hdfs-site.xml", ConfigurationDTOResponse.class);
 
             // concatenate dfs.nameservices
             String dfsNameservicesProperty = "dfs.nameservices";
