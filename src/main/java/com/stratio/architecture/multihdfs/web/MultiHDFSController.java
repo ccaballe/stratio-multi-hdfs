@@ -14,10 +14,12 @@ import com.stratio.architecture.multihdfs.dto.HDFSProperty;
 import com.stratio.architecture.multihdfs.dto.MarathonApp;
 import com.stratio.architecture.multihdfs.dto.MarathonAppsDTOResponse;
 import com.stratio.architecture.multihdfs.error.ErrorResponse;
+import com.stratio.architecture.multihdfs.error.HDFSNotFoundException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.models.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -86,7 +88,7 @@ public class MultiHDFSController {
         String hdfsMasterName = config;
         List<String> hdfsSecondaries = argumentsList.stream().limit(argumentsList.size() - 1).collect(Collectors.toList());
 
-        MarathonAppsDTOResponse marathonAppsDTOResponse  = getMarathonApps();
+        MarathonAppsDTOResponse marathonAppsDTOResponse = getMarathonApps();
         String hdfsMaster = getHDFSURL(hdfsMasterName, marathonAppsDTOResponse);
 
         ResponseEntity<String> response;
@@ -110,7 +112,11 @@ public class MultiHDFSController {
     }
 
     private MarathonAppsDTOResponse getMarathonApps() {
-        MarathonAppsDTOResponse marathonAppsDTOResponse = restTemplate.exchange("https://marathon.mesos:8443/v2/apps",
+
+        String marathonUrl = "https://marathon.mesos:8443/v2/apps";
+        log.debug("Getting marathons apps from URL " + marathonUrl);
+
+        MarathonAppsDTOResponse marathonAppsDTOResponse = restTemplate.exchange(marathonUrl,
                 HttpMethod.GET,
                 new HttpEntity<String>(createHeaders(user, pass)),
                 MarathonAppsDTOResponse.class).getBody();
@@ -119,14 +125,21 @@ public class MultiHDFSController {
 
     private String getHDFSURL(String hdfs, MarathonAppsDTOResponse marathonAppsDTOResponse) {
         log.debug("Getting HDFS URL for HDFS: " + hdfs);
-        // TODO check if any hdfs not found
-        MarathonApp marathonApp = marathonAppsDTOResponse.getApps().stream().filter(app -> app.getLabels().getSTRATIO_SERVICE() != null && app.getLabels().getSTRATIO_SERVICE().equals("hdfs") && app.getId().split("/")[app.getId().split("/").length - 1].equals(hdfs)).collect(Collectors.toList()).get(0);
+
+        // filter HDFS apps
+        List<MarathonApp> marathonAppsFiltered = marathonAppsDTOResponse.getApps().stream()
+                .filter(app -> app.getLabels().getSTRATIO_SERVICE() != null && app.getLabels().getSTRATIO_SERVICE().equals("hdfs") && app.getId().split("/")[app.getId().split("/").length - 1].equals(hdfs))
+                .collect(Collectors.toList());
+        if (marathonAppsFiltered.size() <= 0)
+            throw new HDFSNotFoundException("HDFS with name " + hdfs + " not found");
+
+        MarathonApp marathonApp = marathonAppsFiltered.get(0);
         String id = marathonApp.getId();
         String protocol = marathonApp.getLabels().getDCOS_SERVICE_SCHEME();
         int containerPort = marathonApp.getContainer().getPortMappings().get(0).getContainerPort();
         List<String> aux = Arrays.asList(id.split("/"));
         Collections.reverse(aux);
-        String url = protocol + "://" + StringUtils.join(aux, ".") + "marathon.mesos:" + containerPort ;
+        String url = protocol + "://" + StringUtils.join(aux, ".") + "marathon.mesos:" + containerPort;
         log.debug("HDFS URL is: " + url);
         return url;
     }

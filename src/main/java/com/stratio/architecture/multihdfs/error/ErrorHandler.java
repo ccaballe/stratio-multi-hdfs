@@ -80,4 +80,18 @@ public class ErrorHandler {
     return errorResponse;
   }
 
+  @ExceptionHandler({HDFSNotFoundException.class})
+  public ErrorResponse hdfsNotFoundException(Exception exception, HttpServletResponse response) {
+    log.warn(EnumError.NOT_FOUND_ERROR.getMessage());
+    if (log.isDebugEnabled())
+      log.debug(EnumError.NOT_FOUND_ERROR.getMessage(), exception);
+    ErrorResponse errorResponse = new ErrorResponse(EnumError.NOT_FOUND_ERROR);
+    response.setStatus(errorResponse.getCode());
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+    log.error(EnumError.NOT_FOUND_ERROR.getDescription());
+    return errorResponse;
+
+  }
+
 }
