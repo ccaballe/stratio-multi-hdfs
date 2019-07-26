@@ -1,6 +1,9 @@
 spring:
   profiles: TEST
 
+MULTIHDFS_USER: USERTEST
+MULTIHDFS_PASS: USERPASS
+
 server:
   port: 5443
   ssl:
@@ -23,7 +26,7 @@ auth:
 
 logging:
   level:
-    ROOT: INFO
+    ROOT: DEBUG
     org.springframework: INFO
     com.stratio.architecture.multihdfs: INFO
     ru.yandex.qatools.embed: INFO
