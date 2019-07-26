@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${SSO_PROFILE:PRODUCTION}
+    active: ${MULTIHDFS_PROFILE:PRODUCTION}
 
 ---
 
@@ -36,9 +36,35 @@ management:
   ssl:
     enabled: false
 
-# Cron expression
-# At 02:00 every day.
-cron.ldap: 0 0 2 * * * *
+---
+
+spring:
+  profiles: DISABLE_SEC
+
+server:
+  port: 8080
+
+security:
+  ignored: /**
+  basic:
+    enabled: false
+
+
+logging:
+  level:
+    ROOT: ${LOG_LEVEL_ROOT:INFO}
+    org.springframework: ${LOG_LEVEL_SPRING:INFO}
+    com.stratio.architecture.multihdfs: ${LOG_LEVEL_STRATIO:INFO}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  port: 18080
+  ssl:
+    enabled: false
+
 ---
 
 spring:

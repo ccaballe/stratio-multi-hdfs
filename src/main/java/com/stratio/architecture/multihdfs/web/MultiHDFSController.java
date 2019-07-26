@@ -19,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.models.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -81,7 +80,6 @@ public class MultiHDFSController {
 
         List<String> argumentsList = Arrays.asList(arguments.split("/"));
 
-        // TODO check if there are less than 2 elemennts in path
         String configFile = argumentsList.get(argumentsList.size() - 1);
 
 
@@ -93,16 +91,13 @@ public class MultiHDFSController {
 
         ResponseEntity<String> response;
         if (configFile.equals(coreSiteFile)) {
-            // TODO check if is url and check for double /
             response = restTemplate.getForEntity(URI.create(hdfsMaster + "/v1/config/" + coreSiteFile), String.class);
         } else if (configFile.equals(krb5File)) {
-            // TODO check if is url and check for double /
             response = restTemplate.getForEntity(hdfsMaster + "/v1/config/" + krb5File, String.class);
         } else if (configFile.equals(hdfsSiteFile)) {
             if (hdfsSecondaries == null || hdfsSecondaries.isEmpty())
                 response = restTemplate.getForEntity(hdfsMaster + "/v1/config/" + hdfsSiteFile, String.class);
             else {
-                // TODO
                 response = concatenateHDFSSite(hdfsMaster, hdfsSecondaries.stream().map(x -> getHDFSURL(x, marathonAppsDTOResponse)).collect(Collectors.toList()));
             }
         } else {
@@ -111,7 +106,7 @@ public class MultiHDFSController {
         return response;
     }
 
-    private MarathonAppsDTOResponse getMarathonApps() {
+    public MarathonAppsDTOResponse getMarathonApps() {
 
         String marathonUrl = "https://marathon.mesos:8443/v2/apps";
         log.debug("Getting marathons apps from URL " + marathonUrl);
