@@ -155,16 +155,19 @@ public class MultiHDFSController {
         log.debug("Getting hdfs-site.xml from " + hdfsMaster);
         ConfigurationDTOResponse hdfsSiteMaster = restTemplate.getForObject(hdfsMaster + "/v1/config/hdfs-site.xml", ConfigurationDTOResponse.class);
 
+        String dfsNameservicesProperty = "dfs.nameservices";
+        String dfsNameservicesIdProperty = "dfs.nameservice.id";
+        String hdfsMasterID = findProperty(hdfsSiteMaster, dfsNameservicesIdProperty).getValue();
+
+        String hdfsNameservices = hdfsMasterID;
+
         for (String hdfsSecondary : hdfsSecondaries) {
 
             ConfigurationDTOResponse hdfsSiteSecondary = restTemplate.getForObject(hdfsSecondary + "/v1/config/hdfs-site.xml", ConfigurationDTOResponse.class);
-
             // concatenate dfs.nameservices
-            String dfsNameservicesProperty = "dfs.nameservices";
-            String dfsNameservicesIdProperty = "dfs.nameservice.id";
-            String hdfsMasterID = findProperty(hdfsSiteMaster, dfsNameservicesIdProperty).getValue();
             String hdfsSecondaryID = findProperty(hdfsSiteSecondary, dfsNameservicesIdProperty).getValue();
-            setProperty(hdfsSiteMaster, new HDFSProperty(dfsNameservicesProperty, hdfsMasterID + "," + hdfsSecondaryID));
+            hdfsNameservices = hdfsNameservices + "," + hdfsSecondaryID;
+            setProperty(hdfsSiteMaster, new HDFSProperty(dfsNameservicesProperty, hdfsNameservices));
             // include dfs.internal.nameservices with the hdfs master
             String dfsInternalNameservicesProperty = "dfs.internal.nameservices";
             setProperty(hdfsSiteMaster, new HDFSProperty(dfsInternalNameservicesProperty, hdfsMasterID));
