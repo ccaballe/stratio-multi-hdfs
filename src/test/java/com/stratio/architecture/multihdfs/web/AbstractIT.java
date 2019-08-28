@@ -57,6 +57,8 @@ public abstract class AbstractIT {
                 new MarathonApp("/hdfs-test-1",
                         new MarathonLabel("hdfs", "http"), new MarathonContainer(Arrays.asList(new MarathonPortMapping(8443)))),
                 new MarathonApp("/hdfs-test-2",
+                        new MarathonLabel("hdfs", "http"), new MarathonContainer(Arrays.asList(new MarathonPortMapping(8443)))),
+                new MarathonApp("/hdfs-test-3",
                         new MarathonLabel("hdfs", "http"), new MarathonContainer(Arrays.asList(new MarathonPortMapping(8443)))
                 )));
 
@@ -74,10 +76,13 @@ public abstract class AbstractIT {
 
         File hdfs_site_1 = new File(classLoader.getResource("hdfs-test-1-site.xml").getFile());
         File hdfs_site_2 = new File(classLoader.getResource("hdfs-test-2-site.xml").getFile());
+        File hdfs_site_3 = new File(classLoader.getResource("hdfs-test-3-site.xml").getFile());
 
         JAXBContext jaxbContext;
         ConfigurationDTOResponse hdfs_site_1_response = null;
         ConfigurationDTOResponse hdfs_site_2_response = null;
+        ConfigurationDTOResponse hdfs_site_3_response = null;
+
 
         try {
             jaxbContext = JAXBContext.newInstance(ConfigurationDTOResponse.class);
@@ -85,6 +90,8 @@ public abstract class AbstractIT {
 
             hdfs_site_1_response = (ConfigurationDTOResponse) jaxbUnmarshaller.unmarshal(hdfs_site_1);
             hdfs_site_2_response = (ConfigurationDTOResponse) jaxbUnmarshaller.unmarshal(hdfs_site_2);
+            hdfs_site_3_response = (ConfigurationDTOResponse) jaxbUnmarshaller.unmarshal(hdfs_site_3);
+
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -94,6 +101,9 @@ public abstract class AbstractIT {
 
         Mockito.when(restTemplate.getForObject("http://hdfs-test-2.marathon.mesos:8443/v1/config/hdfs-site.xml", ConfigurationDTOResponse.class))
                 .thenReturn(hdfs_site_2_response);
+
+        Mockito.when(restTemplate.getForObject("http://hdfs-test-3.marathon.mesos:8443/v1/config/hdfs-site.xml", ConfigurationDTOResponse.class))
+                .thenReturn(hdfs_site_3_response);
     }
 
     protected MockMvc getMockMvc() {

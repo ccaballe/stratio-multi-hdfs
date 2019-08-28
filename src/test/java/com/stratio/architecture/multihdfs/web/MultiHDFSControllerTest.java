@@ -57,5 +57,19 @@ public class MultiHDFSControllerTest extends AbstractIT {
                 .andReturn();
     }
 
+    @Test
+    public void getHDFSSiteWithThree() throws Exception {
+        MockHttpServletRequestBuilder httpServletRequestBuilder = MockMvcRequestBuilders.request(HttpMethod.GET,
+                BASE_URL + "/hdfs-test-1/hdfs-test-2/hdfs-test-3/hdfs-site.xml");
+
+        ResultActions resultActions = getMockMvc().perform(httpServletRequestBuilder);
+
+        MvcResult result = resultActions
+                .andExpect(MockMvcResultMatchers.status().
+                        is2xxSuccessful())
+                .andDo(MockMvcResultHandlers.log())
+                .andReturn();
+    }
+
 
 }
