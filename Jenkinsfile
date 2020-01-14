@@ -8,7 +8,7 @@ hose {
     NEW_VERSIONING = true
     KMS_UTILS='0.2.1'
     BUILDTOOLVERSION = '3.5.0'
-
+    ANCHORE_TEST = true
 
     DEV = { config ->        
         doCompile(config)
