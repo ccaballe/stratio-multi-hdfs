@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.2.0 (upcoming)
+## 0.3.0 (upcoming)
+
+* Pending changelog
+
+## 0.2.0-d7a3335 (Built: February 24, 2020 | Pre-release)
 
 * Fixed docker vulnerabilities.
 
