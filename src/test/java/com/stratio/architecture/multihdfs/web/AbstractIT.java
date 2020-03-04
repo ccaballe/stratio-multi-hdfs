@@ -36,9 +36,6 @@ public abstract class AbstractIT {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @Resource(name = AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME)
-    private Filter securityFilter;
-
     @MockBean
     private RestTemplate restTemplate;
 
